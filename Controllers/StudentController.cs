@@ -17,21 +17,22 @@ public class StudentController : ControllerBase
 
     // GET: api/student
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Student>>> GetStudents()
+    public async Task<ActionResult<IEnumerable<StudentDTO>>> GetStudents()
     {
         // Get students
-        var students = _context.Students;
+        var students = _context.Students.Select(s => new StudentDTO(s));
         return await students.ToListAsync();
     }
 
     // GET: api/student/2
     [HttpGet("{id}")]
-    public async Task<ActionResult<Student>> GetStudent(int id)
+    public async Task<ActionResult<StudentDTO>> GetStudent(int id)
     {
         // Find todo and related list
         // SingleAsync() throws an exception if no todo is found (which is possible, depending on id)
         // SingleOrDefaultAsync() is a safer choice here
-        var student = await _context.Students.SingleOrDefaultAsync(t => t.Id == id);
+        var students = _context.Students.Select(s => new StudentDTO(s));
+        var student = await students.SingleOrDefaultAsync(t => t.Id == id);
         if (student == null)
             return NotFound();
 
@@ -40,8 +41,9 @@ public class StudentController : ControllerBase
 
     // POST: api/student
     [HttpPost]
-    public async Task<ActionResult<Student>> PostStudent(Student student)
+    public async Task<ActionResult<StudentDTO>> PostStudent(StudentDTO studentDTO)
     {
+        var student = new Student(studentDTO);
         _context.Students.Add(student);
         await _context.SaveChangesAsync();
 
@@ -50,8 +52,9 @@ public class StudentController : ControllerBase
 
     // PUT: api/student/2
     [HttpPut("{id}")]
-    public async Task<IActionResult> PutStudent(int id, Student student)
+    public async Task<IActionResult> PutStudent(int id, StudentDTO studentDTO)
     {
+        var student = new Student(studentDTO);
         if (id != student.Id)
             return BadRequest();
 

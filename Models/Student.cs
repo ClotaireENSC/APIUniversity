@@ -10,4 +10,11 @@ public class Student
 
     // Default constructor
     public Student() { }
+
+    public Student(StudentDTO studentDTO)
+    {
+        Id = studentDTO.Id;
+        LastName = studentDTO.LastName;
+        FirstName = studentDTO.FirstName;
+    }
 }
