@@ -31,13 +31,15 @@ public class StudentController : ControllerBase
         // Find todo and related list
         // SingleAsync() throws an exception if no todo is found (which is possible, depending on id)
         // SingleOrDefaultAsync() is a safer choice here
-        var students = _context.Students.Select(s => new StudentDTO(s));
-        var student = await students.SingleOrDefaultAsync(t => t.Id == id);
+        var student = await _context.Students
+                .SingleOrDefaultAsync(t => t.Id == id);
 
         if (student == null)
             return NotFound();
 
-        return student;
+        var studentDTO = new StudentDTO(student);
+
+        return studentDTO;
     }
 
     // POST: api/student
