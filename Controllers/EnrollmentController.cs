@@ -38,14 +38,14 @@ public class EnrollmentController : ControllerBase
         return detailedEnrollmentDTO;
     }
 
-    // POST: api/student
-    // [HttpPost]
-    // public async Task<ActionResult<DetailedEnrollmentDTO>> PostEnrollment(DetailedEnrollmentDTO detailedEnrollmentDTO)
-    // {
-    //     var enrollment = new Enrollment(detailedEnrollmentDTO);
-    //     _context.Enrollments.Add(enrollment);
-    //     await _context.SaveChangesAsync();
+    // POST: api/enrollment
+    [HttpPost]
+    public async Task<ActionResult<DetailedEnrollmentDTO>> PostEnrollment(EnrollmentDTO enrollmentDTO)
+    {
+        var enrollment = new Enrollment(enrollmentDTO);
+        _context.Enrollments.Add(enrollment);
+        await _context.SaveChangesAsync();
 
-    //     return CreatedAtAction(nameof(GetEnrollment), new { id = enrollment.Id }, enrollment);
-    // }
+        return CreatedAtAction(nameof(GetEnrollment), new { id = enrollment.Id }, enrollment);
+    }
 }
